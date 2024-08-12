@@ -15,7 +15,14 @@ return new class extends Migration
     {
         Schema::create('curriculum_progress', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('curriculums_id')->nullable(false);
+            $table->unsignedBigInteger('users_id')->nullable(false);
+            $table->tinyInteger('clear_flg')->default(0)->nullable(false);
             $table->timestamps();
+
+            //外部キー制約
+            $table->foreign('curriculums_id')->references('id')->on('curriculums');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -26,6 +33,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curriculum_progress');
+        Schema::table('curriculum_progress', function (Blueprint $table) {
+            $table->dropForeign(['curriculums_id']);
+            $table->dorpForeign(['users_id']);
+        });
+        Schema::dropIfExists('curriculums_progress');
     }
 };
