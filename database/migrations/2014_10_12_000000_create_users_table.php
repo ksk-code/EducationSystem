@@ -11,8 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->nullable(false);
@@ -21,12 +20,12 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->nullable(false);
             $table->string('profile_image', 255)->nullable();
-            $table->unsignedBigInteger('grade_id')->nullable(false);
+            $table->unsignedBigInteger('grade_id')->default(1)->nullable(false);
             $table->rememberToken();
             $table->timestamps();
 
             //外部キー制約
-            $table->foreign('grade_id')->references('id')->on('grades');
+            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
         });
     }
 
@@ -35,8 +34,17 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
+        Schema::table('users', function(Blueprint $table) {
+            if (Schema::hasColumn('users', 'grade_id')) {
+                try {
+                    $table->dropForeign(['grade_id']);
+                } catch (\Illuminate\Database\QueryException $e) {
+                    info('Foreign key "grade_id" does not exist or cannot be dropped.');
+                }
+                $table->dropColumn('grade_id');    
+            }
+        });
         Schema::dropIfExists('users');
     }
 };
