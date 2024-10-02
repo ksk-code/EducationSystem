@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('curriculums', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('thumbnail')->nullable();
+            $table->text('description')->nullable();
+            $table->text('video_url')->nullable();
+            $table->tinyText('alway_delivery_flg');
+            $table->integer('grade_id');
             $table->timestamps();
         });
     }
