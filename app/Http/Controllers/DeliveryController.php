@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Curriculum;
 use App\Models\DeliveryTime;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryController extends Controller
 {
@@ -57,13 +58,17 @@ class DeliveryController extends Controller
             'end_times.*.date_format' => '終了時間の形式が無効です。',
         ]);
 
+        
         // カリキュラムを取得
         $curriculum = Curriculum::findOrFail($id);
 
+        
         // 既存の配信時間を削除する
         $curriculum->deliveryTimes()->delete();
 
         // 新しい配信時間を保存する
+        DB::beginTransaction();
+        try{
         $startDates = $request->input('start_dates');
         $startTimes = $request->input('start_times');
         $endDates = $request->input('end_dates');
@@ -79,7 +84,11 @@ class DeliveryController extends Controller
                 $deliveryTime->save();
             }
         }
-
+        DB::commit();
         return redirect()->route('admin.curriculum_list', $curriculum->id)->with('success', '配信日時が保存されました。');
+    }catch(\exception $e){
+        DB::rollback();
+        return redirect()->route('admin.delivery');
+    }
     }
 }

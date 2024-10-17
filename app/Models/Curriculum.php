@@ -53,50 +53,6 @@ class Curriculum extends Model
         ]);
     }
 
-    //授業登録
-    public function shownewList(Request $request)
-    {
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'title' => 'required',
-                'thumbnail' =>  'nullable|image',
-                'description' => 'required|numeric',
-                'video_url' => 'required',
-                'alway_delivery_flg' => 'nullable',
-                'grade_id' =>  'required|numeric',
-            ]);
-            \Log::info('Request data:', $request->all());
-
-            $grades = Grade::firstOrCreate(['name' => $request->grades_name]);
-            $curriculumsData = [
-                'title' => $request->input('title'),
-                'grade_id' => $request->input('grade_id'),
-                'description' => $request->input('description'),
-                'alway_delivery_flg' => $request->input('alway_delivery_flg'),
-                'video_url' => $request->input('url'), 
-             ];
-
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $file_name = $image->getClientOriginalName();
-                $image->storeAs('public/images', $file_name);
-                $curriculumsData['img_path'] = 'storage/images/' . $file_name;
-            }
-
-            DB::beginTransaction();
-            try {
-                $curriculums = Curriculum::create($curriculumsData);
-                DB::commit();
-                return redirect()->route('curriculum_list')->with('success', '授業が登録されました。');
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return redirect()->back()->withErrors(['error' => '授業の登録に失敗しました。']);
-            }
-        }
-
-        return view('curriculum_create');
-    }
-
     //配信時間のやつ
     public function deliveryTimes()
     {

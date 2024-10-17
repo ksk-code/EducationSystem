@@ -41,6 +41,10 @@ class Grade extends Model
         return $this->belongsTo(Grade::class, 'grade_id', 'id');
     }       
 
+    public static function getGradeWithCurriculums()
+    {
+        return DB::table('grades')->get();
+    }
    
 }
 

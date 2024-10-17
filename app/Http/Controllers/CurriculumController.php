@@ -15,7 +15,7 @@ class CurriculumController extends Controller
 
     public function list()
     {
-        $grades = Grade::all();
+        $grades = Grade::getGradeWithCurriculums();
         return view('curriculum_list', compact('grades'));
     }
 
@@ -24,7 +24,7 @@ class CurriculumController extends Controller
     // 新しい授業登録
     public function newList(Request $request)
 {
-    $grades = Grade::all();
+    $grades = Grade::getGradeWithCurriculums();
 
     if ($request->isMethod('post')) {
         $request->validate([
