@@ -58,6 +58,23 @@ class Curriculum extends Model
     {
         return $this->hasMany(DeliveryTime::class, 'curriculums_id', 'id');
     }
+    
 
+    public static function createNewCurriculum(array $productData): self
+    {
+        return static::create($productData);
+    }
+
+    public static function getCurriculumsForGrade(int $grade_id)
+    {
+    return Curriculum::where('grade_id', $grade_id)
+        ->with('deliveryTimes')
+        ->get();
+    }
+
+    public static function findCurriculum(int $id)
+    {
+    return Curriculum::findOrFail($id);
+    }
 
 }

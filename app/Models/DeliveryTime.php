@@ -21,4 +21,14 @@ class DeliveryTime extends Model
     {
         return $this->belongsTo(Curriculum::class, 'curriculums_id', 'id');
     }
+
+    public static function getDeliveryTimes(int $curriculumId)
+    {
+    return DeliveryTime::where('curriculums_id', $curriculumId)->get();
+    }
+
+    public static function deleteDeliveryTime(int $curriculumId)
+    {
+    return DeliveryTime::where('curriculums_id', $curriculumId)->delete();
+    }
 }

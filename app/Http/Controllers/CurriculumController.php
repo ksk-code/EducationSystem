@@ -62,7 +62,7 @@ class CurriculumController extends Controller
 
         DB::beginTransaction();
         try {
-            $curriculum = Curriculum::create($productData);
+            $curriculum = Curriculum::createNewCurriculum($productData);
             DB::commit();
             return redirect()->route('admin.curriculum_list')->with('success', '授業が登録されました。');
         } catch (\Exception $e) {
@@ -78,8 +78,8 @@ class CurriculumController extends Controller
     public function showCourses($grade_id)
     {
         try {
-            $grade = Grade::findOrFail($grade_id);
-            $curriculums = Curriculum::where('grade_id', $grade_id)->with('deliveryTimes')->get();
+            $grade = Grade::findGrade($grade_id);
+            $curriculums = Curriculum::getCurriculumsForGrade($grade_id);
     
             foreach ($curriculums as $curriculum) {
                 $curriculum->delivery_text = $curriculum->alway_delivery_flg ? '常時公開' : '配信日時設定';
@@ -127,7 +127,7 @@ class CurriculumController extends Controller
         'video_url.url' => '正しい形式のURLを入力してください。',
     ]);
 
-      $curriculum = Curriculum::findOrFail($id);
+      $curriculum = Curriculum::findCurriculum($id);
       
       DB::beginTransaction();
       try{

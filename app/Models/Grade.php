@@ -36,9 +36,10 @@ class Grade extends Model
 
     protected $primaryKey = 'id'; // プライマリキーがidであることを指定
 
-    public function grade()
+    public static function findGrade($grade_id)
     {
-        return $this->belongsTo(Grade::class, 'grade_id', 'id');
+        $grade = Grade::where('id', $grade_id)->first();
+        return $grade;
     }       
 
     public static function getGradeWithCurriculums()

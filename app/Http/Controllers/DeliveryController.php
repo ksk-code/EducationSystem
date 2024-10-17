@@ -13,8 +13,8 @@ class DeliveryController extends Controller
     public function delivery($id)
     {
         try {
-            $curriculum = Curriculum::findOrFail($id);
-            $deliveryTimes = DeliveryTime::where('curriculums_id', $id)->get();
+            $curriculum = Curriculum::findCurriculum($id);
+            $deliveryTimes = DeliveryTime::getDeliveryTimes($curriculum->id);
 
             // 既存の配信日時をフォームに表示するための配列を準備する
             $existingDeliveryTimes = [];
@@ -60,11 +60,11 @@ class DeliveryController extends Controller
 
         
         // カリキュラムを取得
-        $curriculum = Curriculum::findOrFail($id);
+        $curriculum = Curriculum::findCurriculum($id);
 
         
         // 既存の配信時間を削除する
-        $curriculum->deliveryTimes()->delete();
+        DeliveryTime::deleteDeliveryTime($curriculum->id);
 
         // 新しい配信時間を保存する
         DB::beginTransaction();
