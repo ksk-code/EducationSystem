@@ -71,7 +71,7 @@ class CurriculumController extends Controller
         }
     }
 
-    return view('admin.curriculum_create', compact('grades'));
+    return view('curriculum_create', compact('grades'));
 }
 
     //選択した学年に対応する授業表示
@@ -128,7 +128,9 @@ class CurriculumController extends Controller
     ]);
 
       $curriculum = Curriculum::findOrFail($id);
-
+      
+      DB::beginTransaction();
+      try{
       $curriculum->title = $request->input('title');
       $curriculum->grade_id = $request->input('grade_id');
       $curriculum->description = $request->input('description');
@@ -145,13 +147,14 @@ class CurriculumController extends Controller
           }
           $curriculum->thumbnail = 'storage/images/' . $file_name;
       }
-
+      
       $curriculum->save();
-
-      return redirect()->route('admin.curriculum_list')->with('success', '授業が更新されました。');
+        DB::commit();
+        return redirect()->route('admin.curriculum_list')->with('success', '授業が更新されました。');
+      } catch (\Exception $e) {
+      DB::rollback();
+      return redirect()->route('admin.curriculum_edit');
   }
-
-
- 
+    }
 
 }
