@@ -9,7 +9,7 @@ Route::get('/', function () {
     return view('login');
 });
 
-Auth::routes();
+Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -36,3 +36,5 @@ Route::post('/curriculum/{id}/delivery/save', [DeliveryController::class, 'saveD
 Route::get('/grade/{grade_id}/courses', [CurriculumController::class, 'showCourses'])->name('grade_courses');
 //一覧表示
 Route::get('/curriculum_list', [CurriculumController::class, 'list'])->name('curriculum_list');
+
+});

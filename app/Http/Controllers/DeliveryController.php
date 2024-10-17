@@ -80,6 +80,6 @@ class DeliveryController extends Controller
             }
         }
 
-        return redirect()->route('curriculum_list', $curriculum->id)->with('success', '配信日時が保存されました。');
+        return redirect()->route('admin.curriculum_list', $curriculum->id)->with('success', '配信日時が保存されました。');
     }
 }

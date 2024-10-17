@@ -20,8 +20,8 @@
                 <li><a href="#jyugyou">授業管理</a></li>
                 <li><a href="#news">お知らせ管理</a></li>
                 <li><a href="#banner">バナー管理</a></li>
-                <li><a href="{{ route('curriculum_list') }}" class="button">一覧に戻る</a></li>
-                <li><a href="{{ route('home') }}" class="button">ログアウト</a></li>
+                <li><a href="{{ route('admin.curriculum_list') }}" class="button">一覧に戻る</a></li>
+                <li><a href="{{ route('admin.home') }}" class="button">ログアウト</a></li>
             </ul>
         </nav>
     </header>

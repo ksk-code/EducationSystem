@@ -29,7 +29,7 @@
         @endif
 
         <!-- 日時入力行 -->
-        <form action="{{ route('save_delivery_times', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data" id="deliveryForm">
+        <form action="{{ route('admin.save_delivery_times', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data" id="deliveryForm">
             @csrf
 
             <!-- 初期の日時入力行 -->

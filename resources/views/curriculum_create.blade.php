@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        <form action="{{ route('curriculum_create.data') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.curriculum_create.data') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="item">

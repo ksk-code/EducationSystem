@@ -16,7 +16,7 @@
     <main>
     <P><h2>授業内容修正</h2></P>
         
-    <form action="{{ route('curriculum_update', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.curriculum_update', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     @if ($errors->any())

@@ -64,14 +64,14 @@ class CurriculumController extends Controller
         try {
             $curriculum = Curriculum::create($productData);
             DB::commit();
-            return redirect()->route('curriculum_list')->with('success', '授業が登録されました。');
+            return redirect()->route('admin.curriculum_list')->with('success', '授業が登録されました。');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('curriculum_create')->withInput(); 
+            return redirect()->route('admin.curriculum_create')->withInput(); 
         }
     }
 
-    return view('curriculum_create', compact('grades'));
+    return view('admin.curriculum_create', compact('grades'));
 }
 
     //選択した学年に対応する授業表示
@@ -148,7 +148,7 @@ class CurriculumController extends Controller
 
       $curriculum->save();
 
-      return redirect()->route('curriculum_list')->with('success', '授業が更新されました。');
+      return redirect()->route('admin.curriculum_list')->with('success', '授業が更新されました。');
   }
 
 
